@@ -192,7 +192,7 @@ export default function Proposal() {
               Recomendado
             </Badge>
           </div>
-          <h2 className="text-2xl font-bold mb-2">Núcleo Inicial Enxuto</h2>
+          <h2 className="text-2xl font-bold mb-2">1ª Fase - Núcleo Inicial Enxuto</h2>
           <p className="text-muted-foreground mb-6 text-sm">
             Comece com o essencial e expanda conforme a operação cresce.
           </p>
@@ -219,7 +219,7 @@ export default function Proposal() {
               <ShoppingCart className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold">E-commerce</h2>
+              <h2 className="text-2xl font-bold">Projeto Completo - E-commerce</h2>
               <p className="text-sm text-muted-foreground">Loja virtual completa</p>
             </div>
           </div>
@@ -241,7 +241,7 @@ export default function Proposal() {
               <Wrench className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold">Sistema de Gestão da Oficina</h2>
+              <h2 className="text-2xl font-bold">Projeto Completo - Sistema de Gestão da Oficina</h2>
               <p className="text-sm text-muted-foreground">ERP integrado para operação interna</p>
             </div>
           </div>
