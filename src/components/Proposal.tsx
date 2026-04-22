@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import logo from "@/assets/popota-logo.png";
 
 const ecommerceFeatures = [
   "Cadastro, login e recuperação de senha de clientes",
@@ -81,26 +82,33 @@ export default function Proposal() {
     if (!ref.current) return;
     setDownloading(true);
     try {
-      const canvas = await html2canvas(ref.current, {
-        backgroundColor: "#0b0e16",
-        scale: 2,
-        useCORS: true,
-      });
-      const imgData = canvas.toDataURL("image/jpeg", 0.95);
+      const sections = ref.current.querySelectorAll<HTMLElement>("[data-pdf-section]");
       const pdf = new jsPDF("p", "mm", "a4");
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = pageWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
-      let position = 0;
-      pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
+      const margin = 10;
+      const maxW = pageWidth - margin * 2;
+      const maxH = pageHeight - margin * 2;
+
+      for (let i = 0; i < sections.length; i++) {
+        const canvas = await html2canvas(sections[i], {
+          backgroundColor: "#0b0e16",
+          scale: 2,
+          useCORS: true,
+        });
+        const imgData = canvas.toDataURL("image/jpeg", 0.95);
+        // Fit inside page keeping aspect ratio
+        const ratio = canvas.width / canvas.height;
+        let w = maxW;
+        let h = w / ratio;
+        if (h > maxH) {
+          h = maxH;
+          w = h * ratio;
+        }
+        const x = (pageWidth - w) / 2;
+        const y = (pageHeight - h) / 2;
+        if (i > 0) pdf.addPage();
+        pdf.addImage(imgData, "JPEG", x, y, w, h);
       }
       pdf.save("Orcamento-Popota-Motos.pdf");
     } finally {
@@ -112,80 +120,107 @@ export default function Proposal() {
     <div className="min-h-screen bg-gradient-dark">
       <div className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-lg">
         <div className="container flex items-center justify-between py-4">
-          <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-primary shadow-glow">
-              <Zap className="h-5 w-5 text-primary-foreground" />
-            </div>
+          <div className="flex items-center gap-3">
+            <img src={logo} alt="Popota Motos" className="h-10 w-10 object-contain" />
             <span className="font-semibold tracking-tight">Proposta Comercial</span>
           </div>
-          <Button onClick={handleDownload} disabled={downloading} className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-glow">
+          <Button
+            onClick={handleDownload}
+            disabled={downloading}
+            className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-glow"
+          >
             <Download className="mr-2 h-4 w-4" />
             {downloading ? "Gerando PDF..." : "Baixar PDF"}
           </Button>
         </div>
       </div>
 
-      <div ref={ref} className="container max-w-5xl py-12 space-y-12">
-        {/* Hero */}
-        <header className="text-center space-y-6 py-12">
-          <Badge variant="outline" className="border-primary/40 text-primary px-4 py-1">
-            <Sparkles className="mr-2 h-3 w-3" /> Proposta Personalizada
-          </Badge>
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
-            Orçamento{" "}
-            <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Popota Motos
-            </span>
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Plataforma completa de e-commerce integrada a sistema de gestão de oficina.
-            Tudo que sua operação precisa em um único ecossistema.
-          </p>
-        </header>
+      <div ref={ref} className="container max-w-4xl py-10 space-y-8">
+        {/* SEÇÃO 1: HERO */}
+        <section data-pdf-section className="bg-gradient-card rounded-2xl border border-border/50 p-10 shadow-card">
+          <div className="text-center space-y-6">
+            <div className="flex justify-center">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-primary blur-3xl opacity-30 rounded-full" />
+                <img src={logo} alt="Popota Motos" className="relative h-32 w-32 object-contain" />
+              </div>
+            </div>
+            <Badge variant="outline" className="border-primary/40 text-primary px-4 py-1">
+              <Sparkles className="mr-2 h-3 w-3" /> Proposta Personalizada
+            </Badge>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
+              Orçamento{" "}
+              <span className="bg-gradient-primary bg-clip-text text-transparent">
+                Popota Motos
+              </span>
+            </h1>
+            <p className="text-base text-muted-foreground max-w-2xl mx-auto">
+              Plataforma completa de e-commerce integrada a sistema de gestão de oficina.
+              Tudo que sua operação precisa em um único ecossistema.
+            </p>
+            <div className="grid grid-cols-3 gap-4 pt-6 max-w-xl mx-auto">
+              <div className="text-center">
+                <ShoppingCart className="h-6 w-6 mx-auto text-primary mb-2" />
+                <p className="text-xs text-muted-foreground">E-commerce</p>
+              </div>
+              <div className="text-center">
+                <Wrench className="h-6 w-6 mx-auto text-primary mb-2" />
+                <p className="text-xs text-muted-foreground">Gestão</p>
+              </div>
+              <div className="text-center">
+                <Zap className="h-6 w-6 mx-auto text-primary mb-2" />
+                <p className="text-xs text-muted-foreground">Automação</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-        {/* Resumo do investimento */}
-        <Card className="bg-gradient-card border-border/50 p-8 shadow-card">
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <BarChart3 className="h-6 w-6 text-primary" /> Investimento
-          </h2>
+        {/* SEÇÃO 2: INVESTIMENTO */}
+        <section data-pdf-section className="bg-gradient-card rounded-2xl border border-border/50 p-8 shadow-card space-y-6">
+          <div className="flex items-center gap-3">
+            <img src={logo} alt="" className="h-8 w-8 object-contain opacity-80" />
+            <h2 className="text-2xl font-bold flex items-center gap-2">
+              <BarChart3 className="h-6 w-6 text-primary" /> Investimento
+            </h2>
+          </div>
           <div className="grid md:grid-cols-2 gap-4">
-            <div className="rounded-lg border border-primary/30 bg-primary/5 p-6">
+            <div className="rounded-xl border border-primary/30 bg-primary/5 p-6">
               <p className="text-sm text-muted-foreground">Software (implantação única)</p>
               <p className="text-4xl font-bold mt-2 bg-gradient-primary bg-clip-text text-transparent">
                 R$ 8.000
               </p>
             </div>
-            <div className="rounded-lg border border-border bg-secondary/30 p-6">
+            <div className="rounded-xl border border-border bg-secondary/30 p-6">
               <p className="text-sm text-muted-foreground">Mensalidade</p>
-              <p className="text-4xl font-bold mt-2">R$ 200<span className="text-base text-muted-foreground font-normal">/mês</span></p>
+              <p className="text-4xl font-bold mt-2">
+                R$ 200<span className="text-base text-muted-foreground font-normal">/mês</span>
+              </p>
             </div>
           </div>
-
-          <div className="grid md:grid-cols-3 gap-4 mt-6">
-            <div className="flex items-start gap-3 rounded-lg bg-secondary/30 p-4 border border-border/50">
+          <div className="grid md:grid-cols-3 gap-3">
+            <div className="flex items-start gap-3 rounded-xl bg-secondary/30 p-4 border border-border/50">
               <Gift className="h-5 w-5 text-primary mt-1 shrink-0" />
               <div>
-                <p className="font-medium">1 mês grátis</p>
-                <p className="text-sm text-muted-foreground">Sem mensalidade no primeiro mês</p>
+                <p className="font-medium text-sm">1 mês grátis</p>
+                <p className="text-xs text-muted-foreground">Sem mensalidade no início</p>
               </div>
             </div>
-            <div className="flex items-start gap-3 rounded-lg bg-secondary/30 p-4 border border-border/50">
+            <div className="flex items-start gap-3 rounded-xl bg-secondary/30 p-4 border border-border/50">
               <Sparkles className="h-5 w-5 text-primary mt-1 shrink-0" />
               <div>
-                <p className="font-medium">3 meses de mudanças</p>
-                <p className="text-sm text-muted-foreground">Ajustes gratuitos no escopo</p>
+                <p className="font-medium text-sm">3 meses de mudanças</p>
+                <p className="text-xs text-muted-foreground">Ajustes gratuitos</p>
               </div>
             </div>
-            <div className="flex items-start gap-3 rounded-lg bg-secondary/30 p-4 border border-border/50">
+            <div className="flex items-start gap-3 rounded-xl bg-secondary/30 p-4 border border-border/50">
               <Clock className="h-5 w-5 text-primary mt-1 shrink-0" />
               <div>
-                <p className="font-medium">Suporte contínuo</p>
-                <p className="text-sm text-muted-foreground">Manutenção e evolução</p>
+                <p className="font-medium text-sm">Suporte contínuo</p>
+                <p className="text-xs text-muted-foreground">Manutenção e evolução</p>
               </div>
             </div>
           </div>
-
-          <div className="mt-6 flex items-start gap-3 rounded-lg border border-primary/20 bg-primary/5 p-4">
+          <div className="flex items-start gap-3 rounded-xl border border-primary/20 bg-primary/5 p-4">
             <AlertCircle className="h-5 w-5 text-primary mt-0.5 shrink-0" />
             <p className="text-sm text-muted-foreground">
               Mudanças fora do escopo combinado estão sujeitas à cobrança de{" "}
@@ -193,22 +228,26 @@ export default function Proposal() {
               (valor sujeito a reajuste).
             </p>
           </div>
-        </Card>
+        </section>
 
-        {/* Núcleo inicial */}
-        <Card className="bg-gradient-card border-primary/30 p-8 shadow-card">
-          <div className="flex items-center gap-2 mb-2">
+        {/* SEÇÃO 3: NÚCLEO INICIAL */}
+        <section data-pdf-section className="bg-gradient-card rounded-2xl border border-primary/30 p-8 shadow-card">
+          <div className="flex items-center gap-3 mb-4">
+            <img src={logo} alt="" className="h-8 w-8 object-contain opacity-80" />
             <Badge className="bg-gradient-primary text-primary-foreground border-0">
               Recomendado
             </Badge>
           </div>
           <h2 className="text-2xl font-bold mb-2">Núcleo Inicial Enxuto</h2>
-          <p className="text-muted-foreground mb-6">
+          <p className="text-muted-foreground mb-6 text-sm">
             Comece com o essencial e expanda conforme a operação cresce.
           </p>
           <div className="grid sm:grid-cols-2 gap-3">
             {coreFeatures.map((f) => (
-              <div key={f} className="flex items-center gap-3 rounded-lg bg-background/40 p-3 border border-border/50">
+              <div
+                key={f}
+                className="flex items-center gap-3 rounded-lg bg-background/40 p-3 border border-border/50"
+              >
                 <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-primary shrink-0">
                   <Check className="h-3.5 w-3.5 text-primary-foreground" />
                 </div>
@@ -216,34 +255,34 @@ export default function Proposal() {
               </div>
             ))}
           </div>
-        </Card>
+        </section>
 
-        {/* E-commerce */}
-        <section>
+        {/* SEÇÃO 4: E-COMMERCE */}
+        <section data-pdf-section className="bg-gradient-card rounded-2xl border border-border/50 p-8 shadow-card">
           <div className="flex items-center gap-3 mb-6">
+            <img src={logo} alt="" className="h-8 w-8 object-contain opacity-80" />
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-primary shadow-glow">
               <ShoppingCart className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
               <h2 className="text-2xl font-bold">E-commerce</h2>
-              <p className="text-sm text-muted-foreground">Loja virtual completa para o cliente final</p>
+              <p className="text-sm text-muted-foreground">Loja virtual completa</p>
             </div>
           </div>
-          <Card className="bg-gradient-card border-border/50 p-6 shadow-card">
-            <div className="grid md:grid-cols-2 gap-3">
-              {ecommerceFeatures.map((f) => (
-                <div key={f} className="flex items-start gap-3">
-                  <Check className="h-4 w-4 text-primary mt-1 shrink-0" />
-                  <span className="text-sm text-muted-foreground">{f}</span>
-                </div>
-              ))}
-            </div>
-          </Card>
+          <div className="grid md:grid-cols-2 gap-x-6 gap-y-2.5">
+            {ecommerceFeatures.map((f) => (
+              <div key={f} className="flex items-start gap-2.5">
+                <Check className="h-4 w-4 text-primary mt-1 shrink-0" />
+                <span className="text-sm text-muted-foreground">{f}</span>
+              </div>
+            ))}
+          </div>
         </section>
 
-        {/* ERP / Oficina */}
-        <section>
+        {/* SEÇÃO 5: ERP */}
+        <section data-pdf-section className="bg-gradient-card rounded-2xl border border-border/50 p-8 shadow-card">
           <div className="flex items-center gap-3 mb-6">
+            <img src={logo} alt="" className="h-8 w-8 object-contain opacity-80" />
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-primary shadow-glow">
               <Wrench className="h-6 w-6 text-primary-foreground" />
             </div>
@@ -252,39 +291,41 @@ export default function Proposal() {
               <p className="text-sm text-muted-foreground">ERP integrado para operação interna</p>
             </div>
           </div>
-          <Card className="bg-gradient-card border-border/50 p-6 shadow-card">
-            <div className="grid md:grid-cols-2 gap-3">
-              {erpFeatures.map((f) => (
-                <div key={f} className="flex items-start gap-3">
-                  <Check className="h-4 w-4 text-primary mt-1 shrink-0" />
-                  <span className="text-sm text-muted-foreground">{f}</span>
-                </div>
-              ))}
-            </div>
-          </Card>
+          <div className="grid md:grid-cols-2 gap-x-6 gap-y-2.5">
+            {erpFeatures.map((f) => (
+              <div key={f} className="flex items-start gap-2.5">
+                <Check className="h-4 w-4 text-primary mt-1 shrink-0" />
+                <span className="text-sm text-muted-foreground">{f}</span>
+              </div>
+            ))}
+          </div>
         </section>
 
-        {/* Diferenciais */}
-        <section className="grid md:grid-cols-3 gap-4">
-          {[
-            { icon: Package, title: "Tudo Integrado", desc: "E-commerce e oficina conversando em tempo real" },
-            { icon: Zap, title: "Automação", desc: "WhatsApp e estoque automáticos" },
-            { icon: BarChart3, title: "Relatórios", desc: "Visibilidade total da operação" },
-          ].map(({ icon: Icon, title, desc }) => (
-            <Card key={title} className="bg-gradient-card border-border/50 p-6 shadow-card">
-              <Icon className="h-8 w-8 text-primary mb-3" />
-              <h3 className="font-semibold mb-1">{title}</h3>
-              <p className="text-sm text-muted-foreground">{desc}</p>
-            </Card>
-          ))}
+        {/* SEÇÃO 6: DIFERENCIAIS + FECHAMENTO */}
+        <section data-pdf-section className="bg-gradient-card rounded-2xl border border-border/50 p-8 shadow-card space-y-8">
+          <div className="flex items-center gap-3">
+            <img src={logo} alt="" className="h-8 w-8 object-contain opacity-80" />
+            <h2 className="text-2xl font-bold">Por que escolher essa solução?</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              { icon: Package, title: "Tudo Integrado", desc: "E-commerce e oficina conversando em tempo real" },
+              { icon: Zap, title: "Automação", desc: "WhatsApp e estoque automáticos" },
+              { icon: BarChart3, title: "Relatórios", desc: "Visibilidade total da operação" },
+            ].map(({ icon: Icon, title, desc }) => (
+              <div key={title} className="rounded-xl bg-background/40 border border-border/50 p-6">
+                <Icon className="h-8 w-8 text-primary mb-3" />
+                <h3 className="font-semibold mb-1">{title}</h3>
+                <p className="text-sm text-muted-foreground">{desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center pt-6 border-t border-border/50 space-y-3">
+            <img src={logo} alt="Popota Motos" className="h-16 w-16 object-contain mx-auto" />
+            <p className="text-base font-medium">Vamos transformar a Popota Motos juntos 🏍️</p>
+            <p className="text-xs text-muted-foreground">Proposta válida por 30 dias</p>
+          </div>
         </section>
-
-        {/* Footer */}
-        <footer className="text-center py-8 border-t border-border/50">
-          <p className="text-sm text-muted-foreground">
-            Proposta válida por 30 dias · Vamos transformar a Popota Motos juntos 🏍️
-          </p>
-        </footer>
       </div>
     </div>
   );
