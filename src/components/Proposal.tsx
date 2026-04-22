@@ -156,14 +156,14 @@ export default function Proposal() {
               <Gift className="h-5 w-5 text-primary mt-1 shrink-0" />
               <div>
                 <p className="font-medium text-sm">1 mês grátis</p>
-                <p className="text-xs text-muted-foreground">Sem mensalidade no início</p>
+                <p className="text-xs text-muted-foreground">Sem mensalidade no início - valido apartir da entrega final do projeto</p>
               </div>
             </div>
             <div className="flex items-start gap-3 rounded-xl bg-secondary/30 p-4 border border-border/50">
               <Sparkles className="h-5 w-5 text-primary mt-1 shrink-0" />
               <div>
                 <p className="font-medium text-sm">3 meses de mudanças</p>
-                <p className="text-xs text-muted-foreground">Ajustes gratuitos</p>
+                <p className="text-xs text-muted-foreground">Mudanças fora do escopo combinado gratuitas - valido apartir da entrega final do projeto</p>
               </div>
             </div>
             <div className="flex items-start gap-3 rounded-xl bg-secondary/30 p-4 border border-border/50">
@@ -179,7 +179,7 @@ export default function Proposal() {
             <p className="text-sm text-muted-foreground">
               Mudanças fora do escopo combinado estão sujeitas à cobrança de{" "}
               <span className="text-foreground font-medium">R$ 50/hora</span> de programação
-              (valor sujeito a reajuste).
+              (valor sujeito a reajuste) - valido 3 Meses após a entrega final do projeto
             </p>
           </div>
         </section>
