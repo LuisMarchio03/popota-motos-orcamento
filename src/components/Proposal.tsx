@@ -11,6 +11,8 @@ import {
   Gift,
   AlertCircle,
   Zap,
+  CreditCard,
+  Wallet,
 } from "lucide-react";
 import logo from "@/assets/popota-logo.png";
 
