@@ -1,9 +1,6 @@
-import { useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Download,
   Check,
   ShoppingCart,
   Wrench,
@@ -15,8 +12,6 @@ import {
   AlertCircle,
   Zap,
 } from "lucide-react";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 import logo from "@/assets/popota-logo.png";
 
 const ecommerceFeatures = [
@@ -75,47 +70,6 @@ const coreFeatures = [
 ];
 
 export default function Proposal() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [downloading, setDownloading] = useState(false);
-
-  const handleDownload = async () => {
-    if (!ref.current) return;
-    setDownloading(true);
-    try {
-      const sections = ref.current.querySelectorAll<HTMLElement>("[data-pdf-section]");
-      const pdf = new jsPDF("p", "mm", "a4");
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const margin = 10;
-      const maxW = pageWidth - margin * 2;
-      const maxH = pageHeight - margin * 2;
-
-      for (let i = 0; i < sections.length; i++) {
-        const canvas = await html2canvas(sections[i], {
-          backgroundColor: "#0b0e16",
-          scale: 2,
-          useCORS: true,
-        });
-        const imgData = canvas.toDataURL("image/jpeg", 0.95);
-        // Fit inside page keeping aspect ratio
-        const ratio = canvas.width / canvas.height;
-        let w = maxW;
-        let h = w / ratio;
-        if (h > maxH) {
-          h = maxH;
-          w = h * ratio;
-        }
-        const x = (pageWidth - w) / 2;
-        const y = (pageHeight - h) / 2;
-        if (i > 0) pdf.addPage();
-        pdf.addImage(imgData, "JPEG", x, y, w, h);
-      }
-      pdf.save("Orcamento-Popota-Motos.pdf");
-    } finally {
-      setDownloading(false);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-dark">
       <div className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-lg">
@@ -124,18 +78,10 @@ export default function Proposal() {
             <img src={logo} alt="Popota Motos" className="h-10 w-10 object-contain" />
             <span className="font-semibold tracking-tight">Proposta Comercial</span>
           </div>
-          <Button
-            onClick={handleDownload}
-            disabled={downloading}
-            className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-glow"
-          >
-            <Download className="mr-2 h-4 w-4" />
-            {downloading ? "Gerando PDF..." : "Baixar PDF"}
-          </Button>
         </div>
       </div>
 
-      <div ref={ref} className="container max-w-4xl py-10 space-y-8">
+      <div className="container max-w-4xl py-10 space-y-8">
         {/* SEÇÃO 1: HERO */}
         <section data-pdf-section className="bg-gradient-card rounded-2xl border border-border/50 p-10 shadow-card">
           <div className="text-center space-y-6">
