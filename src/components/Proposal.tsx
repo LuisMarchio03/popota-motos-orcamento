@@ -191,9 +191,17 @@ export default function Proposal() {
               </p>
             </div>
             <div className="rounded-xl border border-border bg-secondary/30 p-6">
-              <p className="text-sm text-muted-foreground">Mensalidade</p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm text-muted-foreground">Manutenção mensal</p>
+                <Badge variant="outline" className="border-primary/40 text-primary text-[10px]">
+                  Opcional
+                </Badge>
+              </div>
               <p className="text-4xl font-bold mt-2">
                 R$ 200<span className="text-base text-muted-foreground font-normal">/mês</span>
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">
+                Inclui suporte, manutenção e correções contínuas.
               </p>
             </div>
           </div>
@@ -319,11 +327,6 @@ export default function Proposal() {
                 <p className="text-sm text-muted-foreground">{desc}</p>
               </div>
             ))}
-          </div>
-          <div className="text-center pt-6 border-t border-border/50 space-y-3">
-            <img src={logo} alt="Popota Motos" className="h-16 w-16 object-contain mx-auto" />
-            <p className="text-base font-medium">Vamos transformar a Popota Motos juntos 🏍️</p>
-            <p className="text-xs text-muted-foreground">Proposta válida por 30 dias</p>
           </div>
         </section>
       </div>
