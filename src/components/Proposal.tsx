@@ -277,6 +277,66 @@ export default function Proposal() {
             ))}
           </div>
         </section>
+
+        {/* SEÇÃO 7: FORMAS DE PAGAMENTO */}
+        <section data-pdf-section className="bg-gradient-card rounded-2xl border border-border/50 p-8 shadow-card space-y-6">
+          <div className="flex items-center gap-3">
+            <img src={logo} alt="" className="h-8 w-8 object-contain opacity-80" />
+            <h2 className="text-2xl font-bold flex items-center gap-2">
+              <Wallet className="h-6 w-6 text-primary" /> Formas de Pagamento
+            </h2>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Escolha a opção que melhor se encaixa no seu fluxo de caixa.
+          </p>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="rounded-xl border border-primary/30 bg-primary/5 p-6 space-y-3">
+              <Badge className="bg-gradient-primary text-primary-foreground border-0">
+                Opção 1
+              </Badge>
+              <h3 className="text-lg font-semibold">Pagamento único</h3>
+              <p className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                R$ 8.000
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Valor integral pago na entrega final do projeto completo.
+              </p>
+            </div>
+            <div className="rounded-xl border border-border bg-secondary/30 p-6 space-y-3">
+              <Badge variant="outline" className="border-primary/40 text-primary">
+                Opção 2
+              </Badge>
+              <h3 className="text-lg font-semibold">Pagamento dividido</h3>
+              <div className="space-y-1">
+                <p className="text-2xl font-bold">
+                  R$ 2.800 <span className="text-sm text-muted-foreground font-normal">na entrega da Fase 1</span>
+                </p>
+                <p className="text-2xl font-bold">
+                  R$ 5.200 <span className="text-sm text-muted-foreground font-normal">na entrega final</span>
+                </p>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Total: <span className="text-foreground font-medium">R$ 8.000</span>
+              </p>
+            </div>
+          </div>
+          <div className="rounded-xl border border-border/50 bg-background/40 p-6 space-y-3">
+            <div className="flex items-center gap-2">
+              <CreditCard className="h-5 w-5 text-primary" />
+              <h3 className="font-semibold">Métodos aceitos</h3>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {["PIX", "Cartão de Crédito", "Parcelado no cartão", "Boleto", "Transferência"].map((m) => (
+                <Badge key={m} variant="outline" className="border-border bg-secondary/40">
+                  {m}
+                </Badge>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Parcelamento no cartão sujeito às taxas da operadora.
+            </p>
+          </div>
+        </section>
       </div>
     </div>
   );
