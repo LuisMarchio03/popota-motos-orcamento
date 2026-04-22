@@ -328,11 +328,6 @@ export default function Proposal() {
               </div>
             ))}
           </div>
-          <div className="text-center pt-6 border-t border-border/50 space-y-3">
-            <img src={logo} alt="Popota Motos" className="h-16 w-16 object-contain mx-auto" />
-            <p className="text-base font-medium">Vamos transformar a Popota Motos juntos 🏍️</p>
-            <p className="text-xs text-muted-foreground">Proposta válida por 30 dias</p>
-          </div>
         </section>
       </div>
     </div>
