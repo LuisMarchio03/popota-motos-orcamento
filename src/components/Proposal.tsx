@@ -191,9 +191,17 @@ export default function Proposal() {
               </p>
             </div>
             <div className="rounded-xl border border-border bg-secondary/30 p-6">
-              <p className="text-sm text-muted-foreground">Mensalidade</p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm text-muted-foreground">Manutenção mensal</p>
+                <Badge variant="outline" className="border-primary/40 text-primary text-[10px]">
+                  Opcional
+                </Badge>
+              </div>
               <p className="text-4xl font-bold mt-2">
                 R$ 200<span className="text-base text-muted-foreground font-normal">/mês</span>
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">
+                Inclui suporte, manutenção e correções contínuas.
               </p>
             </div>
           </div>
