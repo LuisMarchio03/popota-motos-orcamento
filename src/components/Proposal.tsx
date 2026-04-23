@@ -336,6 +336,40 @@ export default function Proposal() {
               Parcelamento no cartão sujeito às taxas da operadora.
             </p>
           </div>
+
+        </section>
+
+
+        {/* SEÇÃO 3: PRAZOS */}
+        <section data-pdf-section className="bg-gradient-card rounded-2xl border border-border/50 p-8 shadow-card space-y-6">
+          <div className="flex items-center gap-3">
+            <h2 className="text-2xl font-bold flex items-center gap-2">
+              <Clock className="h-6 w-6 text-primary" /> Prazos e Entregas
+            </h2>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="rounded-xl border border-border bg-secondary/30 p-6">
+              <p className="text-sm text-muted-foreground">MVP (Produto Mínimo Viável)</p>
+              <p className="text-4xl font-bold mt-2">
+                6 a 8<span className="text-base text-muted-foreground font-normal"> semanas</span>
+              </p>
+            </div>
+            
+            <div className="rounded-xl border border-primary/30 bg-primary/5 p-6">
+              <p className="text-sm text-muted-foreground">Projeto Completo</p>
+              <p className="text-4xl font-bold mt-2 bg-gradient-primary bg-clip-text text-transparent">
+                8 a 12<span className="text-base text-muted-foreground font-normal text-foreground"> semanas</span>
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3 rounded-xl border border-border/50 bg-secondary/30 p-4">
+            <Check className="h-5 w-5 text-primary mt-0.5 shrink-0" />
+            <p className="text-sm text-muted-foreground">
+              <strong className="text-foreground font-medium">Acompanhamento contínuo:</strong> Pelo menos uma entrega semanal para acompanhar o desenvolvimento e adaptar pontos necessários.
+            </p>
+          </div>
         </section>
       </div>
     </div>
