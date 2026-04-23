@@ -206,8 +206,8 @@ export default function Proposal() {
                 Inclui hospedagem do sistema, servidor, backups e manutenção contínua.
               </p>
               <div className="mt-auto pt-3">
-                <p className="text-[10px] text-muted-foreground/70 italic leading-tight">
-                  *Conforme o acesso ao e-commerce crescer, o servidor pode precisar de atualização, o que pode alterar o valor da mensalidade (tudo será informado e conversado com antecedência. Não faeremos nada sem autorização).
+                <p className="text-xs text-muted-foreground/70 italic leading-tight">
+                  <span text-orange-500>ATENÇÃO: </span>*Conforme o acesso ao e-commerce crescer, o servidor pode precisar de atualização, o que pode alterar o valor da mensalidade (tudo será informado e conversado com antecedência. Não faeremos nada sem autorização).
                 </p>
               </div>
             </div>
