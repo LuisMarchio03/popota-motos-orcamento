@@ -124,7 +124,7 @@ export default function Proposal() {
         </section>
 
         {/* SEÇÃO 2: INVESTIMENTO */}
-        <section data-pdf-section className="bg-gradient-card rounded-2xl border border-border/50 p-8 shadow-card space-y-6">
+        {/* <section data-pdf-section className="bg-gradient-card rounded-2xl border border-border/50 p-8 shadow-card space-y-6">
           <div className="flex items-center gap-3">
             <img src={logo} alt="" className="h-8 w-8 object-contain opacity-80" />
             <h2 className="text-2xl font-bold flex items-center gap-2">
@@ -184,7 +184,47 @@ export default function Proposal() {
               (valor sujeito a reajuste) - valido 3 Meses após a entrega final do projeto
             </p>
           </div>
-        </section>
+        </section> */}
+        <div className="grid md:grid-cols-3 gap-4">
+            {/* 1. Software */}
+            <div className="rounded-xl border border-primary/30 bg-primary/5 p-6">
+              <p className="text-sm text-muted-foreground">Sistema de Gestão / Loja virtual (implantação única)</p>
+              <p className="text-4xl font-bold mt-2 bg-gradient-primary bg-clip-text text-transparent">
+                R$ 8.000
+              </p>
+            </div>
+            
+            {/* 2. Manutenção Mensal (Atualizado) */}
+            <div className="rounded-xl border border-border bg-secondary/30 p-6 flex flex-col">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm text-muted-foreground">Manutenção mensal (opcional)</p>
+              </div>
+              <p className="text-4xl font-bold mt-2">
+                R$ 200<span className="text-base text-muted-foreground font-normal">/mês</span>
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">
+                Inclui hospedagem do sistema, servidor, backups e manutenção contínua.
+              </p>
+              <div className="mt-auto pt-3">
+                <p className="text-[10px] text-muted-foreground/70 italic leading-tight">
+                  *Conforme o acesso ao e-commerce crescer, o servidor pode precisar de atualização, o que pode alterar o valor da mensalidade (tudo será informado e conversado com antecedência. Não faeremos nada sem autorização).
+                </p>
+              </div>
+            </div>
+
+            {/* 3. Domínio Anual (Novo) */}
+            <div className="rounded-xl border border-border bg-secondary/30 p-6">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm text-muted-foreground">Domínio (Anual)</p>
+              </div>
+              <p className="text-4xl font-bold mt-2">
+                R$ 60<span className="text-base text-muted-foreground font-normal">/ano</span>
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">
+                Valor médio anual para manter o nome do seu site ativo na internet. Já configuramos o domínio para você.
+              </p>
+            </div>
+          </div>
 
         {/* SEÇÃO 3: NÚCLEO INICIAL */}
         <section data-pdf-section className="bg-gradient-card rounded-2xl border border-primary/30 p-8 shadow-card">
